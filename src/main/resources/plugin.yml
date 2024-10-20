@@ -1,0 +1,8 @@
+name: Welcome
+version: 1.0
+main: ch.tmrtrsv.welcome.Welcome
+api-version: 1.16
+authors: [ Тимур ]
+website: t.me/tmrtrsvch
+commands:
+  welcome:

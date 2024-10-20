@@ -1,0 +1,38 @@
+#
+#             Welcome v1.0
+#   	      Автор: Тимур
+#   	   Телеграм: @tmrtrsvch
+#
+# /welcome reload (welcome.reload) - Перезагрузить конфигурацию
+#
+
+title:
+  enabled: true
+  message: "&#DDFF00В&#E1FE00а&#E5FD00ш &#ECFC00с&#F0FB00е&#F4FA00р&#F7FA00в&#FBF900е&#FFF800р"
+
+subtitle:
+  enabled: true
+  message: "&fДобро пожаловать на сервер!"
+
+chatLines:
+  enabled: true
+  messages:
+    - ""
+    - "  &fДобро пожаловать, &#e3ed1f%player%"
+    - "  &fЖелаем приятной игры!"
+    - ""
+
+sound:
+  enabled: true
+  soundName: BLOCK_NOTE_BLOCK_BELL
+
+item:
+  enabled: true
+  id: APPLE
+  amount: 4
+  name: "&#DDFF00&lЯ&#E4FE00&lб&#EBFC00&lл&#F1FB00&lо&#F8F900&lк&#FFF800&lо"
+  lore:
+    - ""
+    - "  &fПодарок от"
+    - "  &fАдминистрации проекта"
+    - ""
