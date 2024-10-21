@@ -4,6 +4,7 @@ import ch.tmrtrsv.welcome.commands.ReloadCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ch.tmrtrsv.welcome.utils.Utils;
 
 import java.util.List;
+import java.util.Set;
 
 public class Welcome extends JavaPlugin implements Listener {
 
@@ -26,11 +28,8 @@ public class Welcome extends JavaPlugin implements Listener {
     private List<String> chatLines;
     private boolean soundEnabled;
     private String soundName;
-    private boolean itemEnabled;
-    private String itemId;
-    private int itemAmount;
-    private String itemName;
-    private List<String> itemLore;
+    private ConfigurationSection items;
+    private List<String> joinCommands;
 
     @Override
     public void onEnable() {
@@ -50,7 +49,7 @@ public class Welcome extends JavaPlugin implements Listener {
 
     private void sendCredit() {
         getLogger().info(Utils.color(""));
-        getLogger().info(Utils.color("&f &#f7f707Welcome v1.0"));
+        getLogger().info(Utils.color("&f &#f7f707Welcome v1.1"));
         getLogger().info(Utils.color("&f Автор: &#FB3908Т&#FC2B06и&#FD1D04м&#FE0E02у&#FF0000р"));
         getLogger().info(Utils.color("&f Телеграм: &#008DFF@&#0086FFt&#007FFFm&#0078FFr&#0071FFt&#006BFFr&#0064FFs&#005DFFv&#0056FFc&#004FFFh"));
         getLogger().info(Utils.color(""));
@@ -65,11 +64,8 @@ public class Welcome extends JavaPlugin implements Listener {
         chatLines = getConfig().getStringList("chatLines.messages");
         soundEnabled = getConfig().getBoolean("sound.enabled");
         soundName = getConfig().getString("sound.soundName");
-        itemEnabled = getConfig().getBoolean("item.enabled");
-        itemId = getConfig().getString("item.id");
-        itemAmount = getConfig().getInt("item.amount");
-        itemName = Utils.color(getConfig().getString("item.name"));
-        itemLore = getConfig().getStringList("item.lore");
+        items = getConfig().getConfigurationSection("items");
+        joinCommands = getConfig().getStringList("commands");
     }
 
     @EventHandler
@@ -84,8 +80,8 @@ public class Welcome extends JavaPlugin implements Listener {
             sendChatMessage(player, chatLines);
         }
 
-        if (itemEnabled) {
-            giveItem(player, itemId, itemAmount, itemName, itemLore);
+        if (items != null) {
+            giveItems(player);
         }
 
         if (soundEnabled && soundName != null && !soundName.isEmpty()) {
@@ -96,6 +92,8 @@ public class Welcome extends JavaPlugin implements Listener {
                 getLogger().warning("Недопустимый звук: " + soundName);
             }
         }
+
+        executeJoinCommands(player);
     }
 
     private void sendTitle(Player player, String title, String subtitle) {
@@ -109,24 +107,42 @@ public class Welcome extends JavaPlugin implements Listener {
         }
     }
 
-    private void giveItem(Player player, String itemId, int amount, String itemName, List<String> itemLore) {
-        if (itemId != null && !itemId.isEmpty()) {
-            try {
-                Material material = Material.getMaterial(itemId);
-                if (material != null) {
-                    ItemStack item = new ItemStack(material, amount);
-                    ItemMeta itemMeta = item.getItemMeta();
-                    itemMeta.setDisplayName(Utils.color(itemName.replace("%player%", player.getName())));
-                    itemMeta.setLore(Utils.color(itemLore));
-                    item.setItemMeta(itemMeta);
-                    PlayerInventory inventory = player.getInventory();
-                    inventory.addItem(item);
-                } else {
-                    getLogger().warning("Недопустимый ID предмета: " + itemId);
-                }
-            } catch (NumberFormatException e) {
-                getLogger().warning("Недопустимый ID предмета: " + itemId);
+    private void giveItems(Player player) {
+        Set<String> itemKeys = items.getKeys(false);
+
+        for (String key : itemKeys) {
+            ConfigurationSection itemSection = items.getConfigurationSection(key);
+            if (itemSection != null) {
+                String itemName = Utils.color(itemSection.getString("name"));
+                List<String> itemLore = itemSection.getStringList("lore");
+                int amount = itemSection.getInt("amount");
+
+                giveItem(player, key, amount, itemName, itemLore);
             }
+        }
+    }
+
+    private void giveItem(Player player, String itemId, int amount, String itemName, List<String> itemLore) {
+        Material material = Material.getMaterial(itemId.toUpperCase());
+        if (material != null) {
+            ItemStack item = new ItemStack(material, amount);
+            ItemMeta itemMeta = item.getItemMeta();
+            if (itemMeta != null) {
+                itemMeta.setDisplayName(Utils.color(itemName.replace("%player%", player.getName())));
+                itemMeta.setLore(Utils.color(itemLore));
+                item.setItemMeta(itemMeta);
+            }
+            PlayerInventory inventory = player.getInventory();
+            inventory.addItem(item);
+        } else {
+            getLogger().warning("Недопустимый ID предмета: " + itemId);
+        }
+    }
+
+    private void executeJoinCommands(Player player) {
+        for (String command : joinCommands) {
+            String parsedCommand = command.replace("%player%", player.getName());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), parsedCommand);
         }
     }
 }
