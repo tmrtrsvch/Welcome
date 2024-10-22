@@ -1,40 +1,51 @@
 #
-#             Welcome v1.1
+#             Welcome v2.0
 #   	      Автор: Тимур
 #   	   Телеграм: @tmrtrsvch
 #
 # /welcome reload (welcome.reload) - Перезагрузить конфигурацию
 #
 
-title:
-  enabled: true
-  message: "&#DDFF00В&#E1FE00а&#E5FD00ш &#ECFC00с&#F0FB00е&#F4FA00р&#F7FA00в&#FBF900е&#FFF800р"
+messages:
+  no-perm: "&#FBF408&lП&#FBF107&lр&#FCEF06&lи&#FCEC06&lв&#FDE905&lе&#FDE704&lт&#FDE403&lс&#FEE102&lт&#FEDE02&lв&#FFDC01&lи&#FFD900&lе&7&l: &fУ Вас нет прав для выполнения этой команды"
+  config-reloaded: "&#FBF408&lП&#FBF107&lр&#FCEF06&lи&#FCEC06&lв&#FDE905&lе&#FDE704&lт&#FDE403&lс&#FEE102&lт&#FEDE02&lв&#FFDC01&lи&#FFD900&lе&7&l: &fКонфигурация успешно перезагружена!"
+  reload-usage: "&#FBF408&lП&#FBF107&lр&#FCEF06&lи&#FCEC06&lв&#FDE905&lе&#FDE704&lт&#FDE403&lс&#FEE102&lт&#FEDE02&lв&#FFDC01&lи&#FFD900&lе&7&l: &fИспользуйте команду: &e/welcome reload"
 
-subtitle:
-  enabled: true
-  message: "&fДобро пожаловать на сервер!"
+settings:
+  first-join:
+    title: "&#DDFF00В&#E1FE00а&#E5FD00ш &#ECFC00с&#F0FB00е&#F4FA00р&#F7FA00в&#FBF900е&#FFF800р"
+    subtitle: "&fДобро пожаловать на сервер!"
 
-chatLines:
-  enabled: true
-  messages:
-    - ""
-    - "  &fДобро пожаловать, &#e3ed1f%player%"
-    - "  &fЖелаем приятной игры!"
-    - ""
-
-sound:
-  enabled: true
-  soundName: BLOCK_NOTE_BLOCK_BELL
-
-commands: # %player% - игрок, который заходит на сервер
-  - "Что тут еще можно вводить? Плагин слишком функциональный %player%"
-
-items:
-  apple:
-    amount: 4
-    name: "&#DDFF00&lЯ&#E4FE00&lб&#EBFC00&lл&#F1FB00&lо&#F8F900&lк&#FFF800&lо"
-    lore:
+    message:
       - ""
-      - "  &fПодарок от"
-      - "  &fАдминистрации проекта"
+      - "  &fДобро пожаловать, &#e3ed1f%player%"
+      - "  &fЖелаем приятной игры!"
       - ""
+
+    sound: BLOCK_NOTE_BLOCK_BELL
+
+    commands: # %player% - игрок, который заходит на сервер
+      - "Что тут еще можно вводить? Плагин слишком функциональный %player%"
+
+    items:
+      apple:
+        amount: 16
+        name: "&#DDFF00&lЯ&#E4FE00&lб&#EBFC00&lл&#F1FB00&lо&#F8F900&lк&#FFF800&lо"
+        lore:
+          - "&fДобавьте здесь своё описание"
+  join:
+    title: "&#DDFF00В&#E1FE00а&#E5FD00ш &#ECFC00с&#F0FB00е&#F4FA00р&#F7FA00в&#FBF900е&#FFF800р"
+    subtitle: "&fС возвращением!"
+
+    message:
+      - ""
+      - "  &fС возвращением, &#e3ed1f%player%"
+      - "  &fЖелаем приятной игры!"
+      - ""
+
+    sound: BLOCK_NOTE_BLOCK_BELL
+
+    commands: # %player% - игрок, который заходит на сервер
+      - "Что тут еще можно вводить? Плагин слишком функциональный %player%"
+
+    items: []
